@@ -1,90 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>job tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Issues Tracker</title>
 
-    <!-- tailwindcss  -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- css  -->
-    <link rel="stylesheet" href="./style.css">
+<!-- google font  -->
+ <link rel="stylesheet" href="./style.css">
 
+ <!-- dasiy ui  -->
 
-    <!-- daisy UI    -->
-
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+ <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100">
 
-    <!-- Card -->
-    <div class="bg-white w-[520px] p-10 rounded-xl shadow-md">
+<!-------------------------------------------------------------------------------->
 
-        <!-- logo -->
-        <div class="text-center mb-6">
+<div id="loginPage" class="flex items-center justify-center min-h-screen">
+
+<div class="bg-white w-[420px] p-10 rounded-xl shadow">
+
+<div class="text-center mb-6">
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="w-16 mx-auto mb-3">
+<h2 class="text-xl font-bold">GitHub Issues Tracker</h2>
+<p class="text-gray-500 text-sm">Sign in to manage your issues</p>
+</div>
+
+<label class="text-sm">Username</label>
+<input id="username" class="border w-full p-2 rounded mb-2" placeholder="Enter Username">
+
+<p class="text-xs text-blue-600 mb-2">Default: admin</p>
+
+<label class="text-sm">Password</label>
+<input id="password" type="password" class="border w-full p-2 rounded mb-2" placeholder="Enter Password">
+
+<p class="text-xs text-blue-600 mb-4">Default: admin123</p>
+
+<button onclick="login()" class="w-full bg-purple-600 text-white py-2 rounded">
+Sign In
+</button>
+
+</div>
+
+</div>
+
+<!-- ----------------------------------------------------- -->
+
+<div id="mainPage" class="hidden">
+
+<header class="bg-white shadow px-8 py-4 flex justify-between items-center">
+
+<div class="flex items-center gap-2">
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="w-6">
+<h1 class="font-semibold">GitHub Issues Tracker</h1>
+</div>
+
+<div class="flex gap-3">
+
+<input
+id="searchInput"
+placeholder="Search issues..."
+class="border px-3 py-1 rounded w-64"
+/>
+
+<button class="bg-purple-600 text-white px-3 py-1 rounded">
++ New Issue
+</button>
+
+</div>
+
+</header>
 
 
-            <img class="w-20 mx-auto mb-4" src="./assets/github-logo.png" alt="github">
-            <h2 class="text-2xl font-bold text-gray-800">GitHub Issues Tracker</h2>
-            <p class="text-gray-500 text-sm">Sign in to manage your issues</p>
-        </div>
+<div class="max-w-6xl mx-auto mt-8">
 
-        <!-- from -->
-        <div class="space-y-4">
+<!-- ----------------------------------------- -->
 
+<div class="bg-white p-4 rounded shadow flex gap-3 mb-6">
 
-            <div>
-                <label class="text-sm font-medium">Username</label>
-                <input type="text" placeholder="Enter Username" class="input input-bordered w-full mt-1">
-                <p class="text-blue-500 text-xs mt-1">Default: admin</p>
+<button onclick="setTab('all')" id="tabAll"
+class="px-4 py-1 bg-purple-600 text-white rounded">
+All
+</button>
 
+<button onclick="setTab('open')" id="tabOpen"
+class="px-4 py-1 border rounded">
+Open
+</button>
 
+<button onclick="setTab('closed')" id="tabClosed"
+class="px-4 py-1 border rounded">
+Closed
+</button>
 
-            </div>
-
-            <div>
-                <label class="text-sm font-medium">Password</label>
-
-                <input type="password" placeholder="Enter Password" class="input input-bordered w-full mt-1">
-                <p class="text-blue-500 text-xs mt-1">Default: admin123</p>
-            </div>
-
-            <!-- button -->
-
-            <button class="w-full py-3 rounded-lg text-white font-semibold bg-indigo-600">
-                Sign In
-            </button>
-
-            <!-- or section -->
+</div>
 
 
-            <div class="flex items-center gap-3 my-4">
-                <div class="flex-1 h-px bg-gray-300"></div>
+<!-- ------------------------------------------------------>
 
-                <span class="text-gray-400 text-sm">OR</span>
+<div class="bg-white p-5 rounded shadow mb-6 flex justify-between">
 
-                <div class="flex-1 h-px bg-gray-300"></div>
-            </div>
+<div>
+<h2 class="font-semibold">
+<span id="issueCount">0</span> Issues
+</h2>
 
-            <!-- demo -->
-            <div class="bg-gray-100 p-4 rounded-lg text-center text-sm">
-                <p class="text-gray-500 mb-2">Demo Credentials:</p>
+<p class="text-sm text-gray-500">
+Track and manage your project issues
+</p>
+</div>
 
-                <p><strong>Username:</strong> admin</p>
+<div class="text-sm flex gap-4">
+<span class="text-green-600">● Open</span>
+<span class="text-purple-600">● Closed</span>
+</div>
 
-                <p><strong>Password:</strong> admin123</p>
-            </div>
+</div>
 
-        </div>
 
-    </div>
+<div id="loader" class="text-center hidden py-10">
+Loading...
+</div>
+
+
+<!-- ------------------------------------------------------- -->
+
+<div id="issuesContainer"
+class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- -------------------------------------------------- -->
+
+<dialog id="modal" class="fixed inset-0 bg-black/40">
+
+<div class="bg-white w-[420px] p-6 rounded-xl shadow-lg mx-auto mt-[15vh]">
+
+<h2 id="modalTitle" class="text-lg font-bold mb-2"></h2>
+
+<p id="modalDesc" class="text-sm text-gray-600 mb-4"></p>
+
+<div class="text-sm mb-4">
+<p><b>Assignee:</b> <span id="modalAssignee"></span></p>
+<p><b>Priority:</b> <span id="modalPriority"></span></p>
+<p><b>Status:</b> <span id="modalStatus"></span></p>
+</div>
+
+<button onclick="closeModal()" class="bg-purple-600 text-white px-4 py-2 rounded">
+Close
+</button>
+
+</div>
+
+</dialog>
+
+
+<script src="script.js"></script>
 
 </body>
-
 </html>
