@@ -1,170 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub Issues Tracker</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-<!-- google font  -->
- <link rel="stylesheet" href="./style.css">
-
- <!-- dasiy ui  -->
-
- <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- google font  -->
+    <link rel="stylesheet" href="./style.css">
+    <!-- dasiy ui  -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 </head>
 
 <body class="bg-gray-100">
+    <!-------------------------------------------------------------------------------->
+    <div id="loginPage" class="flex items-center justify-center min-h-screen">
 
-<!-------------------------------------------------------------------------------->
+        <div class="bg-white w-[420px] p-10 rounded-xl shadow">
 
-<div id="loginPage" class="flex items-center justify-center min-h-screen">
+            <div class="text-center mb-6">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    class="w-16 mx-auto mb-3">
+                <h2 class="text-xl font-bold">GitHub Issues Tracker</h2>
+                <p class="text-gray-500 text-sm">Sign in to manage your issues</p>
+            </div>
 
-<div class="bg-white w-[420px] p-10 rounded-xl shadow">
+            <label class="text-sm">Username</label>
+            <input id="username" class="border w-full p-2 rounded mb-2" placeholder="Enter Username">
 
-<div class="text-center mb-6">
-<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="w-16 mx-auto mb-3">
-<h2 class="text-xl font-bold">GitHub Issues Tracker</h2>
-<p class="text-gray-500 text-sm">Sign in to manage your issues</p>
-</div>
+            <p class="text-xs text-blue-600 mb-2">Default: admin</p>
 
-<label class="text-sm">Username</label>
-<input id="username" class="border w-full p-2 rounded mb-2" placeholder="Enter Username">
+            <label class="text-sm">Password</label>
+            <input id="password" type="password" class="border w-full p-2 rounded mb-2" placeholder="Enter Password">
 
-<p class="text-xs text-blue-600 mb-2">Default: admin</p>
+            <p class="text-xs text-blue-600 mb-4">Default: admin123</p>
 
-<label class="text-sm">Password</label>
-<input id="password" type="password" class="border w-full p-2 rounded mb-2" placeholder="Enter Password">
+            <button onclick="login()" class="w-full bg-purple-600 text-white py-2 rounded">
+                Sign In
+            </button>
 
-<p class="text-xs text-blue-600 mb-4">Default: admin123</p>
+        </div>
 
-<button onclick="login()" class="w-full bg-purple-600 text-white py-2 rounded">
-Sign In
-</button>
+    </div>
 
-</div>
+    <!-- ----------------------------------------------------- -->
 
-</div>
+    <div id="mainPage" class="hidden">
 
-<!-- ----------------------------------------------------- -->
+        <header class="bg-white shadow px-8 py-4 flex justify-between items-center">
 
-<div id="mainPage" class="hidden">
+            <div class="flex items-center gap-2">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="w-6">
+                <h1 class="font-semibold">GitHub Issues Tracker</h1>
+            </div>
 
-<header class="bg-white shadow px-8 py-4 flex justify-between items-center">
+            <div class="flex gap-3">
 
-<div class="flex items-center gap-2">
-<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="w-6">
-<h1 class="font-semibold">GitHub Issues Tracker</h1>
-</div>
+                <input id="searchInput" placeholder="Search issues..." class="border px-3 py-1 rounded w-64" />
 
-<div class="flex gap-3">
+                <button class="bg-purple-600 text-white px-3 py-1 rounded">
+                    + New Issue
+                </button>
 
-<input
-id="searchInput"
-placeholder="Search issues..."
-class="border px-3 py-1 rounded w-64"
-/>
+            </div>
 
-<button class="bg-purple-600 text-white px-3 py-1 rounded">
-+ New Issue
-</button>
-
-</div>
-
-</header>
+        </header>
 
 
-<div class="max-w-6xl mx-auto mt-8">
+        <div class="max-w-6xl mx-auto mt-8">
 
-<!-- ----------------------------------------- -->
+            <!-- ----------------------------------------- -->
 
-<div class="bg-white p-4 rounded shadow flex gap-3 mb-6">
+            <div class="bg-white p-4 rounded shadow flex gap-3 mb-6">
 
-<button onclick="setTab('all')" id="tabAll"
-class="px-4 py-1 bg-purple-600 text-white rounded">
-All
-</button>
+                <button onclick="setTab('all')" id="tabAll" class="px-4 py-1 bg-purple-600 text-white rounded">
+                    All
+                </button>
 
-<button onclick="setTab('open')" id="tabOpen"
-class="px-4 py-1 border rounded">
-Open
-</button>
+                <button onclick="setTab('open')" id="tabOpen" class="px-4 py-1 border rounded">
+                    Open
+                </button>
 
-<button onclick="setTab('closed')" id="tabClosed"
-class="px-4 py-1 border rounded">
-Closed
-</button>
+                <button onclick="setTab('closed')" id="tabClosed" class="px-4 py-1 border rounded">
+                    Closed
+                </button>
 
-</div>
+            </div>
 
 
-<!-- ------------------------------------------------------>
+            <!-- ------------------------------------------------------>
 
-<div class="bg-white p-5 rounded shadow mb-6 flex justify-between">
+            <div class="bg-white p-5 rounded shadow mb-6 flex justify-between">
 
-<div>
-<h2 class="font-semibold">
-<span id="issueCount">0</span> Issues
-</h2>
+                <div>
+                    <h2 class="font-semibold">
+                        <span id="issueCount">0</span> Issues
+                    </h2>
 
-<p class="text-sm text-gray-500">
-Track and manage your project issues
-</p>
-</div>
+                    <p class="text-sm text-gray-500">
+                        Track and manage your project issues
+                    </p>
+                </div>
 
-<div class="text-sm flex gap-4">
-<span class="text-green-600">● Open</span>
-<span class="text-purple-600">● Closed</span>
-</div>
+                <div class="text-sm flex gap-4">
+                    <span class="text-green-600">● Open</span>
+                    <span class="text-purple-600">● Closed</span>
+                </div>
 
-</div>
-
-
-<div id="loader" class="text-center hidden py-10">
-Loading...
-</div>
+            </div>
 
 
-<!-- ------------------------------------------------------- -->
-
-<div id="issuesContainer"
-class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-</div>
-
-</div>
-
-</div>
+            <div id="loader" class="text-center hidden py-10">
+                Loading...
+            </div>
 
 
-<!-- -------------------------------------------------- -->
+            <!-- ------------------------------------------------------- -->
 
-<dialog id="modal" class="fixed inset-0 bg-black/40">
+            <div id="issuesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            </div>
 
-<div class="bg-white w-[420px] p-6 rounded-xl shadow-lg mx-auto mt-[15vh]">
+        </div>
 
-<h2 id="modalTitle" class="text-lg font-bold mb-2"></h2>
-
-<p id="modalDesc" class="text-sm text-gray-600 mb-4"></p>
-
-<div class="text-sm mb-4">
-<p><b>Assignee:</b> <span id="modalAssignee"></span></p>
-<p><b>Priority:</b> <span id="modalPriority"></span></p>
-<p><b>Status:</b> <span id="modalStatus"></span></p>
-</div>
-
-<button onclick="closeModal()" class="bg-purple-600 text-white px-4 py-2 rounded">
-Close
-</button>
-
-</div>
-
-</dialog>
+    </div>
 
 
-<script src="script.js"></script>
+    <!-- -------------------------------------------------- -->
+
+    <dialog id="modal" class="fixed inset-0 bg-black/40">
+
+        <div class="bg-white w-[520px] p-6 rounded-xl shadow-xl mx-auto mt-[12vh]">
+
+            <!-- title -->
+            <h2 id="modalTitle" class="text-xl font-semibold mb-2"></h2>
+
+            <!-- statas-->
+            <div class="flex items-center gap-3 text-sm mb-4">
+
+                <span id="modalStatus" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                    Open
+                </span>
+
+                <p class="text-gray-500">
+                    Opened by <span id="modalAssigneeName"></span>
+                    <span class="mx-1">•</span>
+                    <span id="modalDate"></span>
+                </p>
+
+            </div>
+
+            <!-- labels -->
+            <div class="flex gap-2 mb-4">
+
+                <span class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">
+                    BUG
+                </span>
+
+                <span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">
+                    HELP WANTED
+                </span>
+
+            </div>
+
+
+            <p id="modalDesc" class="text-gray-600 text-sm mb-6"></p>
+
+
+            <div class="bg-gray-50 p-4 rounded-lg flex justify-between items-center">
+
+                <div>
+
+                    <p class="text-xs text-gray-500">Assignee:</p>
+                    <p id="modalAssignee" class="text-sm font-medium"></p>
+                </div>
+
+                <div>
+
+                    <p class="text-xs text-gray-500">Priority:</p>
+
+                    <span id="modalPriority" class="text-xs px-2 py-1 bg-red-500 text-white rounded-full">
+                        HIGH
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex justify-end mt-6">
+
+                <button onclick="closeModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
