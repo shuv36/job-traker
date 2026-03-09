@@ -54,7 +54,6 @@ function login() {
 async function loadIssues() {
 
     loader.classList.remove("hidden")
-
     const res = await fetch(API_ALL)
     const data = await res.json()
 
@@ -84,25 +83,55 @@ function renderIssues(list) {
         const card = document.createElement("div")
 
         card.className =
-            `bg-white border-t-4 ${border} p-4 rounded shadow cursor-pointer`
-
+            `bg-white border-t-4 ${border} p-4 rounded shadow hover:shadow-lg transition cursor-pointer`
         card.innerHTML = `
+
+<div class="flex justify-between items-center mb-3">
+
+<div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+●
+</div>
+
+<span class="text-xs px-3 py-1 rounded-full 
+${issue.priority === "high" ? "bg-red-100 text-red-600" :
+                issue.priority === "medium" ? "bg-yellow-100 text-yellow-700" :
+                    "bg-gray-100 text-gray-600"}">
+${issue.priority?.toUpperCase()}
+</span>
+
+</div>
 
 <h3 class="font-semibold text-sm mb-2">
 ${issue.title}
 </h3>
 
-<p class="text-xs text-gray-500 mb-3">
+<p class="text-sm text-gray-500 mb-4">
 ${issue.description.slice(0, 80)}...
 </p>
 
-<p class="text-xs text-gray-400">
-#${issue.id} by ${issue.author}
-</p>
+<div class="flex gap-2 mb-4">
+
+<span class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">
+BUG
+</span>
+
+<span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">
+HELP WANTED
+</span>
+
+</div>
+
+<div class="border-t pt-3 text-xs text-gray-400">
+
+<p>#${issue.id} by ${issue.author}</p>
+
+<p>1/15/2024</p>
+
+</div>
 
 `
 
-        card.onclick = () => openIssue(issue.id)
+        card.onclick = () => openIssue(issue)
 
         container.appendChild(card)
 
@@ -143,29 +172,31 @@ function setTab(tab) {
 }
 
 
-async function openIssue(id) {
-
-    const res = await fetch(API_SINGLE + id)
-    const data = await res.json()
-
-    const issue = data.data
+function openIssue(issue){
 
     const today = new Date().toLocaleDateString("en-GB")
 
-    document.getElementById("modalTitle").innerText = issue.title
-    document.getElementById("modalDesc").innerText = issue.description
+document.getElementById("modalTitle").innerText = issue.title
+document.getElementById("modalDesc").innerText = issue.description
+document.getElementById("modalAssignee").innerText = issue.author
+document.getElementById("modalAssigneeName").innerText = issue.author
+document.getElementById("modalDate").innerText = today
+document.getElementById("modalPriority").innerText = issue.priority
 
-    document.getElementById("modalAssignee").innerText = issue.author
+const statusEl = document.getElementById("modalStatus")
 
-    document.getElementById("modalAssigneeName").innerText = issue.author
+statusEl.innerText = issue.status
 
+if(issue.status === "open"){
+statusEl.className =
+"px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium"
+}
+else{
+statusEl.className =
+"px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+}
 
-    document.getElementById("modalDate").innerText = today
-    document.getElementById("modalPriority").innerText = issue.priority
-
-    document.getElementById("modalStatus").innerText = issue.status
-
-    document.getElementById("modal").showModal()
+document.getElementById("modal").showModal()
 
 }
 
